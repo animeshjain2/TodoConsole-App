@@ -13,8 +13,5 @@ public class Main {
         TaskController task = new TaskController();
         task.startApp();
 
-        int n = scn.nextInt();
-        task.performAction(n);
-
     }
 }

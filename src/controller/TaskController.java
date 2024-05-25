@@ -1,16 +1,25 @@
 package controller;
 
-import dto.Task;
 import service.TaskService;
+import dto.Task;
+import dto.Status;
+import dto.Category;
 
+import java.util.List;
 import java.util.Scanner;
+import java.lang.*;
 
 public class TaskController {
 
     private TaskService taskService = new TaskService();
     public void startApp()
     {
-        showMenu();
+        while (true)
+        {
+            showMenu();
+            String inputTask = getUserInput("Action you want to perform: ");
+            performAction(inputTask);
+        }
     }
     public void showMenu()
     {
@@ -21,10 +30,28 @@ public class TaskController {
         System.out.println("4. List all Task");
         System.out.println("5. Exit the App");
 
+
     }
 
-    public void performAction(int n)
+    public String getUserInput(String inputMessage)
     {
+        System.out.print(inputMessage);
+        Scanner scn = new Scanner(System.in);
+        String s = scn.next();
+        return s;
+    }
+
+    public void performAction(String s)
+    {
+        int n;
+        try {
+            n = Integer.parseInt(s);
+        } catch (Exception e)
+        {
+            System.out.println("Enter the valid number");
+            return;
+        }
+
         switch (n){
             case 1: {
                 addTask();
@@ -39,7 +66,7 @@ public class TaskController {
                 break;
             }
             case 4:{
-//                listTask();
+                listTask();
                 break;
             }
             case 5:{
@@ -52,13 +79,16 @@ public class TaskController {
 
     public void addTask()
     {
-        Scanner scn = new Scanner(System.in);
-        int id = scn.nextInt();
-        String name = scn.next();
-        String Category = scn.next();
-        String deadline = scn.next();
 
-        Task task = new Task(id,name,Category,deadline);
+        String name = getUserInput("Task Name :");
+        String deadline = getUserInput("Enter the date in DD-MM-YYYY format");
+
+        Task task = new Task(Task.getTaskAutoId(),name,Category.PERSONAL,deadline,Status.Pending);
         taskService.addTask(task);
+    }
+
+    public void listTask(){
+        List<Task> tasks = taskService.listTask();
+        System.out.println(tasks);
     }
 }
