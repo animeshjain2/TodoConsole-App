@@ -37,8 +37,7 @@ public class TaskController {
     {
         System.out.print(inputMessage);
         Scanner scn = new Scanner(System.in);
-        String s = scn.next();
-        return s;
+        return scn.nextLine();
     }
 
     public void performAction(String s)
@@ -58,11 +57,11 @@ public class TaskController {
                 break;
             }
             case 2: {
-//                updateTask();
+                updateTask();
                 break;
             }
             case 3:{
-//                deleteTask();
+                deleteTask();
                 break;
             }
             case 4:{
@@ -79,16 +78,43 @@ public class TaskController {
 
     public void addTask()
     {
-
         String name = getUserInput("Task Name :");
-        String deadline = getUserInput("Enter the date in DD-MM-YYYY format");
+        String deadline = getUserInput("Enter the date :");
 
         Task task = new Task(Task.getTaskAutoId(),name,Category.PERSONAL,deadline,Status.Pending);
         taskService.addTask(task);
     }
 
+    public void deleteTask(){
+
+        String id = getUserInput("Enter TaskId: ");
+        boolean isDeleted = taskService.removeTask(Integer.parseInt(id));
+
+        if (!isDeleted) {
+            System.out.println("Invalid Task ID");
+        } else {
+            System.out.println("Task is deleted successfully");
+        }
+    }
+
+    public void updateTask(){
+
+        String id = getUserInput("Enter TaskId: ");
+        Task task = getTask(Integer.parseInt(id));
+
+        task.setTaskName(getUserInput("Name: "));
+        task.setTaskStatus(Status.valueOf(getUserInput("Status: ")));
+        task.setTaskDeadline(getUserInput("Deadline: "));
+
+
+    }
     public void listTask(){
         List<Task> tasks = taskService.listTask();
         System.out.println(tasks);
     }
+
+    public Task getTask(int id){
+        return taskService.getTask(id);
+    }
+
 }

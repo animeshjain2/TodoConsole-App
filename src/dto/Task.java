@@ -6,41 +6,53 @@ import java.time.LocalDateTime;
 public class Task {
 
     private static int Id;
-    private String Name;
-    private Category Category;
+    private int taskId;
+    private String taskName;
+    private Category taskCategory;
     private Status taskStatus;
-    private String deadline;
+    private String taskDeadline;
 
     private static int taskAutoId=0;
     public Task(int id,String taskname, Category taskcategory, String taskDeadline, Status taskStatus)
     {
-        this.Id=id;
-        this.Name=taskname;
-        this.Category=taskcategory;
-        this.deadline=taskDeadline;
+        this.taskId=id;
+        this.taskName=taskname;
+        this.taskCategory=taskcategory;
+        this.taskDeadline=taskDeadline;
         this.taskStatus = taskStatus;
     }
 
 
-    public int getId() { return Id; }
+    public int getId() { return taskId; }
     public Status getTaskStatus(){  return taskStatus; }
 
     public String getName() {
-        return Name;
+        return taskName;
     }
 
-
     public Category getCategory() {
-        return Category;
+        return taskCategory;
     }
 
     public String getDateTime() {
-        return deadline;
+        return taskDeadline;
     }
 
+    public void setTaskStatus(Status status){
+        this.taskStatus=status;
+    }
+    public void setTaskDeadline(String deadline){
+        this.taskDeadline=deadline;
+    }
+    public void setTaskName(String name){
+        this.taskName=name;
+    }
+    public void setTaskCategory(Category category){
+        this.taskCategory=category;
+    }
     public String toString()
     {
-        return "Name="+this.Name+", Category="+this.Category+", Time="+this.deadline;
+        return "Task" + taskId +": [Name= "+  taskName +", Category= "+this.taskCategory+ ", taskStatus=" + taskStatus+ ", Deadline= "+taskDeadline +"]\n";
     }
 
     public static int getTaskAutoId(){
